@@ -1,0 +1,7 @@
+com\github\tacowasa059\piechartplugin\utils\SkinRetriever.class
+com\github\tacowasa059\piechartplugin\commands\getPieChart.class
+com\github\tacowasa059\piechartplugin\utils\GiveMap.class
+com\github\tacowasa059\piechartplugin\utils\CustomMapRender.class
+com\github\tacowasa059\piechartplugin\PieChartPlugin.class
+com\github\tacowasa059\piechartplugin\utils\MakePieChart.class
+com\github\tacowasa059\piechartplugin\commands\setThresholdDistance.class

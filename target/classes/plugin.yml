@@ -1,0 +1,15 @@
+name: PieChartPlugin
+version: '1.0-SNAPSHOT'
+main: com.github.tacowasa059.piechartplugin.PieChartPlugin
+api-version: 1.16
+authors: [ TACOWASA059 ]
+description: This plugin can automatically retrieve the skin and represent it as a color pie chart when the MCID is entered. You may get it as a map.
+website: https://github.com/TACOWASA059
+commands:
+  PieChart:
+    description: Get a pie chart for a given player.
+    usage: /<command> <mcid>
+  setThresholdDistance:
+    description: Set the threshold for the distance to be treated as the same color. (The distance uses the L2 norm of the difference between each RGB value)
+    usage: /<command> <value>
+
