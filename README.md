@@ -3,3 +3,4 @@
 
 /piechart <MCID>
 
+![2023-01-03_07 26 26](https://user-images.githubusercontent.com/115648249/210281907-26654a0a-967b-422e-aac9-6fee356c9c98.png)
