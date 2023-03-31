@@ -1,7 +1,7 @@
 # PieChartPlugin
 スキンの色割合を円グラフで表示するプラグイン
 ## コマンド
-/piechart MCID
+- /piechart get MCID
 ### 注意
 地図にすると配色が変わるため微妙
 
