@@ -2,6 +2,7 @@ package com.github.tacowasa059.piechartplugin.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -15,7 +16,9 @@ public class SkinRetriever {
     public BufferedImage getSkin(String mcid) {
         try{
             // Send a request to the Minecraft skin server
-            URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + getUUID(mcid));
+            String uuid=getUUID(mcid);
+            if(uuid==null)return null;
+            URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
             InputStreamReader reader = new InputStreamReader(url.openStream());
             BufferedReader br = new BufferedReader(reader);
             StringBuilder response = new StringBuilder();
@@ -44,8 +47,14 @@ public class SkinRetriever {
     private String getUUID(String mcid) {
         try{
             // Send a request to the Minecraft skin server
-            URL url = new URL("https://api.mojang.com/users/profiles/minecraft/" + mcid);
-            InputStreamReader reader = new InputStreamReader(url.openStream());
+            URL url;
+            url= new URL("https://api.mojang.com/users/profiles/minecraft/" + mcid);
+            InputStreamReader reader;
+            try{
+                 reader= new InputStreamReader(url.openStream());
+            }catch (FileNotFoundException e){
+                return null;
+            }
             BufferedReader br = new BufferedReader(reader);
             StringBuilder response = new StringBuilder();
             String  line;
@@ -61,7 +70,7 @@ public class SkinRetriever {
         }
         catch (IOException ioEx) {
             ioEx.printStackTrace();
-            throw new RuntimeException("IO Exception", ioEx);
+            return null;
         }
     }
 }

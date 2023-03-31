@@ -6,7 +6,7 @@
 
     <groupId>com.github.TACOWASA059</groupId>
     <artifactId>PieChartPlugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>PieChartPlugin</name>
@@ -77,12 +77,12 @@
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
-            <version>1.5.3</version>
+            <version>1.5.4</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20201115</version>
+            <version>20230227</version>
         </dependency>
     </dependencies>
 </project>

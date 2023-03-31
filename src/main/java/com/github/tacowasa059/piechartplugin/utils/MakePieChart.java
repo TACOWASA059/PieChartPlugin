@@ -20,11 +20,11 @@ public class MakePieChart {
     public MakePieChart(PieChartPlugin plugin){
         this.plugin=plugin;
     }
+    //②Listに基づき、pie_chartの作成
     public BufferedImage getPieChart(List<Map.Entry<Integer, Integer>> list, String chartFile){
         DefaultPieDataset ds_pie = new DefaultPieDataset();
         for(Map.Entry<Integer,Integer> entry:list){
             ds_pie.setValue(entry.getKey(),entry.getValue());
-
         }
         //レガシーテーマを設定する
         ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
@@ -50,14 +50,15 @@ public class MakePieChart {
         chartImage=chartImage.getSubimage(128,128,128*7,128*7);
         if(plugin.getConfig().getBoolean("SaveImageAsPNG")){
             try {
-                ImageIO.write(chartImage, "png", new File(chartFile));
+                ImageIO.write(chartImage, "png", new File(plugin.getDataFolder(),chartFile));
+
             } catch (IOException e) {
                 throw new IllegalArgumentException("Failed writing chartFile (" + chartFile + ").", e);
             }
         }
         return chartImage;
     }
-    //色のカウントを行う
+    //色のカウントを行う(①)
     public static List<Map.Entry<Integer, Integer>> CountColor(BufferedImage img){
         Map<Integer,Integer> map =new HashMap<>();//カウント用のmap
         for(int x=0;x<img.getWidth();x++){
@@ -109,6 +110,54 @@ public class MakePieChart {
         Collections.reverse(list2);//逆順
         return list2;
     }
+    //sort color
+    public List<Map.Entry<Integer,Integer>> sort_color_count(List<Map.Entry<Integer,Integer>> List){
+        List<Map.Entry<Integer,Integer>> List2=new ArrayList<>(List);
+        int i=0;
+        while(i<List2.size()-1){
+            int insert_index=i+1;
+            int j=i+1;
+            while(j<List2.size()){
+                int color1=List2.get(i).getKey();
+                int r1 = ( color1 >> 16 ) & 0xff;
+                int g1 = ( color1 >> 8 ) & 0xff;
+                int b1 = color1 & 0xff;
+                int color2=List2.get(j).getKey();
+                int r2 = ( color2 >> 16 ) & 0xff;
+                int g2 = ( color2 >> 8 ) & 0xff;
+                int b2 = color2 & 0xff;
+                double norm=Math.sqrt((double)((r1-r2)*(r1-r2)+(g1-g2)*(g1-g2)+(b1-b2)*(b1-b2)));
+                if(norm<plugin.getConfig().getDouble("ThresholdDistance")){
+                    int count2=List2.get(j).getValue();
+                    List2.remove(j);
+                    HashMap<Integer,Integer> hashMap=new HashMap<>();
+                    hashMap.put(color2,count2);
+                    for(Map.Entry<Integer,Integer> entry:hashMap.entrySet()){
+                        List2.add(insert_index,entry);
+                    }
+                    insert_index+=1;
+                }
+                j+=1;
+            }
+            i+=insert_index-i;
+        }
+        return List2;
+        /*
+        while(i<len(original_color)):
+        insert_index=i+1#insertの位置
+                j=i+1
+        while(j<len(original_color)):
+        norm=np.linalg.norm(np.array(original_color[i])-np.array(original_color[j]),ord=2)
+        if norm<40.0/255.0:
+        color=original_color.pop(j)
+        original_color.insert(insert_index,color)
+        count=original_count.pop(j)
+        original_count.insert(insert_index,count)
+        insert_index+=1
+        j+=1
+        i+=insert_index-i
 
+         */
+    }
 
 }
